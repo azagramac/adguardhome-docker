@@ -1,13 +1,11 @@
-## Docker AdGuard Home
-<p align="center">
-    <img src="https://github.com/AzagraMac/AdGuardDocker/assets/571796/2c97f791-80e2-4e61-bc32-67a7b9398d3b" alt="PNG" height="120px"  />
-    <img src="https://github.com/AzagraMac/AdGuardDocker/assets/571796/062bb571-5cf2-4906-b6d3-319e7594ff6c" alt="PNG" height="170px" />
-    <h3 align="center">Privacy protection center for you and your devices</h3>
-<p align="center">
-  Free and open source, powerful network-wide ads & trackers blocking DNS server.
+<a href="https://snapcraft.io/adguard-home">
+	<img alt="adguard-home" src="https://snapcraft.io/adguard-home/badge.svg"/>
+</a>
 </p>
+<br/>
+<p align="center">
+    <img src="https://cdn.adtidy.org/public/Adguard/Common/adguard_home.gif" width="800"/>
 </p>
-
 
 ### Requeriments
 - Service docker running
@@ -411,22 +409,21 @@ Once the data has been changed, restart adguard.
 
 ## Applications for Android or iOS.
 Link to the developer of the application: [![GitHub](https://img.shields.io/static/v1.svg?color=blue&labelColor=555555&logoColor=ffffff&style=social&label=JGeek00&message=GitHub&logo=github)](https://github.com/JGeek00 "view the source for all of our repositories.")
+
 ### Adguard Home® android application
 <a href="https://play.google.com/store/apps/details?id=com.jgeek00.adguard_home_manager"><img src="https://lh3.googleusercontent.com/q1k2l5CwMV31JdDXcpN4Ey7O43PxnjAuZBTmcHEwQxVuv_2wCE2gAAQMWxwNUC2FYEOnYgFPOpw6kmHJWuEGeIBLTj9CuxcOEeU8UXyzWJq4NJM3lg=s0" width="130px"></a>
 
-<img src="https://github.com/AzagraMac/AdGuardDocker/assets/571796/b308d995-2f7b-42db-a8e1-588d5463d8d4" height="600"/> 
+<img src="https://github.com/AzagraMac/adguardhome-docker/assets/571796/1cadc751-565d-430a-a884-7c17384135b0" height="600"/> 
 
-<img src="https://github.com/AzagraMac/AdGuardDocker/assets/571796/4e5473d7-f3d0-448f-ac9d-2a421058ad10" height="600"/> 
+<img src="https://github.com/AzagraMac/adguardhome-docker/assets/571796/30c2bf8a-9106-49c3-918e-28eba88092b8" height="600"/> 
 
 
 ### Adguard Home® iOS application
 <a href="https://apps.apple.com/es/app/adguard-home-remote/id1543143740"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/640px-Download_on_the_App_Store_Badge.svg.png" width="130px"></a>
 
-<img src="https://github.com/AzagraMac/AdGuardDocker/assets/571796/2b5b132e-79ce-411c-994c-7072ab71ed3c" height="600"/> 
+<img src="https://github.com/AzagraMac/adguardhome-docker/assets/571796/13c9771a-8847-4e56-9a1f-0327f6ba0caf" height="600"/> 
 
-<img src="https://github.com/AzagraMac/AdGuardDocker/assets/571796/a6de194d-1cdb-482c-8d93-2593af1a7ea9" height="600"/> 
-
-
+<img src="https://github.com/AzagraMac/adguardhome-docker/assets/571796/f3d2526c-018d-4eff-aa75-b10bd2625864" height="600"/>
 
 <p><sub>Any and all rights and responsibilities pertaining thereto remain the property of the respective developer.</sub></p>
 
