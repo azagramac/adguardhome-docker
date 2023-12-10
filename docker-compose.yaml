@@ -1,0 +1,43 @@
+---
+version: '3.2'
+services:
+  adguard:
+    container_name: adguard
+    image: adguard/adguardhome:latest
+    hostname: adguard
+    restart: always
+    network_mode: "host"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "68:68/tcp"
+      - "68:68/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+      - "443:443/udp"
+      - "784:784/udp"
+      - "853:853/tcp"
+      - "3000:3000/tcp"
+      - "5443:5443/tcp"
+      - "5443:5443/udp"
+      - "8853:8853/udp"
+    environment:
+      TZ: Europe/Madrid
+    healthcheck:
+      test: "/bin/netstat -pant | /bin/grep 53"
+      interval: 45s
+      timeout: 30s
+      retries: 3
+    volumes:
+      - '$HOME/docker/adguardhome/work/:/opt/adguardhome/work/'
+      - '$HOME/docker/adguardhome/conf/:/opt/adguardhome/conf/'
+    cap_add:
+      - NET_ADMIN
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
+
