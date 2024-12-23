@@ -43,11 +43,25 @@
     git clone https://github.com/AzagraMac/adguardhome-docker.git
 
 ### Running
-    adguardhome-docker
+    cd adguardhome-docker
     docker-compose up -d
-    
+
 ### Check
     docker ps -a
+
+### Running on docker swarm
+    cd adguardhome-docker
+    docker stack deploy --compose-file compose.yml adguard
+
+### Check on docker swarm
+     docker service ls
+
+     ID             NAME                   MODE         REPLICAS   IMAGE                                  PORTS
+     6vi2dutbvbqp   adguard_adblock        replicated   1/1        adguard/adguardhome:latest
+     
+     docker service ps adguard_adblock
+     ID             NAME                IMAGE                        NODE      DESIRED STATE   CURRENT STATE               ERROR     PORTS
+     jslnz3p5xj8i   adguard_adblock.1   adguard/adguardhome:latest   master    Running         Running about an hour ago             *:53->53/udp,*:443->443/tcp,*:53->53/tcp,*:68->68/udp,*:8853->8853/udp,*:443->443/udp,*:67->67/udp,*:784->784/udp,*:5443->5443/tcp,*:68->68/tcp,*:5443->5443/udp,*:3000->3000/tcp,*:853->853/tcp
 
 ## Adguard Home® configuration: <img src="https://github.com/JuanRodenas/Pihole_list/blob/main/assets/adguard_home_lightmode.svg" alt="AdGuard Home" width="100"/>
 ### Setting to have DNS over TLS or DNS over HTTPS enabled
