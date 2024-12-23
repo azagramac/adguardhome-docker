@@ -1,0 +1,84 @@
+---
+services:
+  adblock:
+    image: adguard/adguardhome:latest
+    restart: always
+    deploy:
+      replicas: 1
+      placement: 
+        constraints: 
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+    healthcheck:
+      test: "/bin/netstat -pant | /bin/grep 53"
+      interval: 45s
+      timeout: 30s
+      retries: 3
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+    volumes:
+      - $HOME/docker/adguardhome/work/:/opt/adguardhome/work:rw
+      - $HOME/docker/adguardhome/conf/:/opt/adguardhome/conf:rw
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - target: 53
+        published: 53
+        protocol: tcp
+        mode: host
+      - target: 53
+        published: 53
+        protocol: udp
+        mode: host
+      - target: 67
+        published: 67
+        protocol: udp
+        mode: host
+      - target: 68
+        published: 68
+        protocol: udp
+        mode: host
+      - target: 68
+        published: 68
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 443
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 443
+        protocol: udp
+        mode: host
+      - target: 784
+        published: 784
+        protocol: udp
+        mode: host
+      - target: 853
+        published: 853
+        protocol: tcp
+        mode: host
+      - target: 3000
+        published: 3000
+        protocol: tcp
+        mode: host
+      - target: 5443
+        published: 5443
+        protocol: tcp
+        mode: host
+      - target: 5443
+        published: 5443
+        protocol: udp
+        mode: host
+      - target: 8853
+        published: 8853
+        protocol: udp
+        mode: host
