@@ -1,22 +1,25 @@
 ---
+version: "3.8"
+
 services:
-  adblock:
+  adguard:
     image: adguard/adguardhome:latest
+    container_name: adguard
     restart: always
     deploy:
       replicas: 1
       placement: 
         constraints: 
-          - node.role == manager
+          - node.role == manager   # Run on manager node
       restart_policy:
         condition: on-failure
       resources:
         limits:
-          memory: 128M
+          memory: 256M
         reservations:
           memory: 64M
     healthcheck:
-      test: "/bin/netstat -pant | /bin/grep 53"
+      test: ["CMD-SHELL", "/opt/adguardhome/AdGuardHome --check-config -w /opt/adguardhome/work -c /opt/adguardhome/conf/AdGuardHome.yaml"]
       interval: 45s
       timeout: 30s
       retries: 3
@@ -25,11 +28,14 @@ services:
       - PGID=1000
       - TZ=Europe/Madrid
     volumes:
-      - $HOME/docker/adguardhome/work/:/opt/adguardhome/work:rw
-      - $HOME/docker/adguardhome/conf/:/opt/adguardhome/conf:rw
+      - $HOME/docker/adguardhome/work:/opt/adguardhome/work:rw
+      - $HOME/docker/adguardhome/conf:/opt/adguardhome/conf:rw
+      - /etc/hosts:/etc/hosts:ro
     cap_add:
       - NET_ADMIN
+      # SYS_MODULE not needed unless you load kernel modules
     ports:
+      # Mandatory DNS ports
       - target: 53
         published: 53
         protocol: tcp
@@ -38,47 +44,45 @@ services:
         published: 53
         protocol: udp
         mode: host
-      - target: 67
-        published: 67
-        protocol: udp
-        mode: host
-      - target: 68
-        published: 68
-        protocol: udp
-        mode: host
-      - target: 68
-        published: 68
-        protocol: tcp
-        mode: host
+
+      # Optional / recommended
       - target: 443
         published: 443
         protocol: tcp
-        mode: host
-      - target: 443
-        published: 443
-        protocol: udp
-        mode: host
-      - target: 784
-        published: 784
-        protocol: udp
-        mode: host
+        mode: host   # DoH + dashboard HTTPS
+      #- target: 784
+      #  published: 784
+      #  protocol: udp
+      #  mode: host   # DoQ (experimental)
       - target: 853
         published: 853
         protocol: tcp
-        mode: host
-      - target: 3000
-        published: 3000
-        protocol: tcp
-        mode: host
-      - target: 5443
-        published: 5443
-        protocol: tcp
-        mode: host
-      - target: 5443
-        published: 5443
-        protocol: udp
-        mode: host
-      - target: 8853
-        published: 8853
-        protocol: udp
-        mode: host
+        mode: host   # DoT
+      #- target: 3000
+      #  published: 3000
+      #  protocol: tcp
+      #  mode: host   # Dashboard initial config
+      #- target: 5443
+      #  published: 5443
+      #  protocol: tcp
+      #  mode: host   # DNSCrypt / alternative DoH
+      #- target: 5443
+      #  published: 5443
+      #  protocol: udp
+      #  mode: host   # DNSCrypt depends on TCP
+      #- target: 67
+      #  published: 67
+      #  protocol: udp
+      #  mode: host   # DHCP server (optional, only if AdGuard handles DHCP)
+      #- target: 68
+      #  published: 68
+      #  protocol: udp
+      #  mode: host
+      #- target: 6060
+      #  published: 6060
+      #  protocol: tcp
+      #  mode: host   # Internal API - do not expose
+      #- target: 8853
+      #  published: 8853
+      #  protocol: udp
+      #  mode: host   # DNS mTLS (beta)
