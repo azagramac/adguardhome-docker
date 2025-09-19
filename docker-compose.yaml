@@ -3,6 +3,7 @@ services:
   adguard:
     image: adguard/adguardhome:latest
     container_name: adguard
+    #network_mode: "host"  # DHCP server - optional, only if AdGuard handles DHCP
     restart: always
     deploy:
       resources:
@@ -11,7 +12,7 @@ services:
         reservations:
           memory: 64M
     healthcheck:
-      test: "/bin/netstat -pant | /bin/grep 53"
+      test: ["CMD-SHELL", "/opt/adguardhome/AdGuardHome --check-config -w /opt/adguardhome/work -c /opt/adguardhome/conf/AdGuardHome.yaml"]
       interval: 45s
       timeout: 30s
       retries: 3
@@ -20,26 +21,23 @@ services:
       - PGID=1000
       - TZ=Europe/Madrid
     volumes:
-      - /home/$USER/docker/adguardhome/work:/opt/adguardhome/work:rw
-      - /home/$USER/docker/adguardhome/conf:/opt/adguardhome/conf:rw
+      - /home/dietpi/docker/adguardhome/work:/opt/adguardhome/work:rw
+      - /home/dietpi/docker/adguardhome/conf:/opt/adguardhome/conf:rw
       - /etc/hosts:/etc/hosts:ro
     ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "67:67/udp"
-      - "68:68/udp"
-      - "80:80/tcp"
-      - "443:443/tcp"
-      - "443:443/udp"
-      - "784:784/udp"
-      - "853:853/tcp"
-      - "853:853/udp"
-      - "3000:3000/tcp"
-      - "3000:3000/udp"
-      - "5443:5443/tcp"
-      - "5443:5443/udp"
-      - "6060:6060/tcp"
-      - "8853:8853/udp"
+      - "53:53/tcp"       # DNS - **mandatory**
+      - "53:53/udp"       # DNS - **mandatory**
+      #- "67:67/udp"      # DHCP server - optional, only if AdGuard handles DHCP
+      #- "68:68/udp"      # DHCP server - optional
+      #- "80:80/tcp"      # Dashboard HTTP - optional, only if not using HTTPS
+      - "443:443/tcp"     # DNS-over-HTTPS / dashboard HTTPS - optional but recommended if using DoH
+      - "784:784/udp"     # DNS-over-QUIC (beta) - optional, experimental
+      - "853:853/tcp"     # DNS-over-TLS - optional
+      - "3000:3000/tcp"   # Dashboard initial config - optional, only for initial setup
+      - "5443:5443/tcp"   # DNSCrypt / alternative DoH - optional
+      - "5443:5443/udp"   # DNSCrypt depends on TCP - optional
+      #- "6060:6060/tcp"  # Internal API - optional, do not expose
+      #- "8853:8853/udp"  # DNS mTLS (beta) - optional, experimental
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
